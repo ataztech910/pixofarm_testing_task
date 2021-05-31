@@ -25,10 +25,10 @@ const CameraScreen = ({navigation}) => {
     currentMarker = store.getState();
     console.log('currentMarker', currentMarker);
   });
-  const takePicture = async (camera: any) => {
-    if (camera) {
+  const takePicture = async (cameraVar: any) => {
+    if (cameraVar) {
       const options = {quality: 0.5, base64: true};
-      const data = await camera.takePictureAsync(options);
+      const data = await cameraVar.takePictureAsync(options);
       await CameraRoll.save(data.uri);
       console.log(data.uri);
       realmConnection.then(realm => {
