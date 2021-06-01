@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -11,27 +11,40 @@ import CameraScreen from './screens/CameraScreen';
 import reducer from './store/reducer';
 import {applyMiddleware, createStore, Store} from 'redux';
 import thunk from 'redux-thunk';
-import {Provider} from 'react-redux';
+import { Provider, useDispatch } from "react-redux";
 import PhotosScreen from './screens/PhotosScreen';
+// @ts-ignore
+import {withAuthenticator} from 'aws-amplify-react-native';
+import Amplify, {Auth} from 'aws-amplify';
+import config from './src/aws-exports';
+import Geolocation from "react-native-geolocation-service";
+import { Alert } from "react-native";
+
+Amplify.configure({
+  ...config,
+  Analytics: {
+    disabled: true,
+  },
+});
 
 const store: Store<MarkerState, MarkerAction> & {
   dispatch: DispatchType;
 } = createStore(reducer, applyMiddleware(thunk));
 
-const CameraView = styled.View`
-  position: absolute;
-  bottom: 0px;
-  height: 68px;
-  width: 68px;
-  border-radius: 50px;
-  border: 4px solid rgba(54, 54, 54, 0.14);
-  background-color: #ebebeb;
-  justify-content: center;
-  align-items: center;
-`;
+const CameraView = styled.View``;
+
+const LogoutView = styled.View``;
 
 const Tab = createBottomTabNavigator();
 const App = () => {
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+    } catch (error) {
+      console.log('Error signing out: ', error);
+    }
+  };
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -39,13 +52,11 @@ const App = () => {
           screenOptions={({route}) => ({
             tabBarIcon: ({color, size}) => {
               let iconName: string = 'spinner';
-
               if (route.name === 'Map') {
                 iconName = 'map-pin';
               } else if (route.name === 'Photos') {
                 iconName = 'photo';
               }
-
               return <Icon name={iconName} color={color} size={size} />;
             },
           })}
@@ -55,7 +66,6 @@ const App = () => {
             showLabel: false,
           }}>
           <Tab.Screen name="Map" component={MapScreen} />
-
           <Tab.Screen
             name="Camera"
             options={{
@@ -71,11 +81,34 @@ const App = () => {
             }}
             component={CameraScreen}
           />
+
           <Tab.Screen name="Photos" component={PhotosScreen} />
+
+          <Tab.Screen
+            name="Logout"
+            listeners={() => ({
+              tabPress: e => {
+                e.preventDefault();
+                signOut();
+              },
+            })}
+            options={{
+              tabBarIcon: ({color, size}) => {
+                let iconName;
+                iconName = 'sign-out';
+                return (
+                  <LogoutView>
+                    <Icon name={iconName} color={color} size={size} />
+                  </LogoutView>
+                );
+              },
+            }}
+            component={PhotosScreen}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>
   );
 };
 
-export default App;
+export default withAuthenticator(App);

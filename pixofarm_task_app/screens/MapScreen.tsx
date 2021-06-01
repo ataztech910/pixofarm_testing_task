@@ -17,18 +17,37 @@ const MapScreen = ({navigation}) => {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const dispatch = useDispatch();
+  const setCurrentPosition = (position: any) => {
+    setLatitude(position.coords.latitude);
+    setLongitude(position.coords.longitude);
+    dispatch({
+      type: 'ADD_COORDINATES',
+      payload: {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      },
+    });
+  };
+
   const initGeoLocation = () => {
+    console.log('init geolocation');
+    Geolocation.getCurrentPosition(
+      position => {
+        console.log('position', position);
+        setCurrentPosition(position);
+      },
+      error => {
+        Alert.alert(error.message.toString());
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 1000,
+      },
+    );
     Geolocation.watchPosition(
       position => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-        dispatch({
-          type: 'ADD_COORDINATES',
-          payload: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          },
-        });
+        console.log('position WATCH', position);
+        setCurrentPosition(position);
       },
       error => {
         Alert.alert(error.message.toString());
@@ -38,7 +57,6 @@ const MapScreen = ({navigation}) => {
       },
     );
   };
-
   const onPress = (coordinates: any) => {
     dispatch({type: 'ADD_COORDINATES', payload: coordinates});
     console.log(coordinates);
@@ -49,11 +67,17 @@ const MapScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    Geolocation.requestAuthorization('whenInUse').then(result => {
-      console.log(latitude);
-      console.log(longitude);
-      result && initGeoLocation();
-    });
+    console.log('Map activated');
+    try {
+      Geolocation.requestAuthorization('whenInUse').then(result => {
+        console.log(latitude);
+        console.log(longitude);
+        console.log(result);
+        result && initGeoLocation();
+      });
+    } catch (e) {
+      console.log(e);
+    }
   });
 
   return (

@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "pixofarmtaskapp5e5c6e0e": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
