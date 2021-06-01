@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pixofarmtaskapp-dev-185612-authRole",
+      "UnauthRoleArn": "arn:aws:iam::876682287772:role/amplify-pixofarmtaskapp-dev-185612-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::876682287772:role/amplify-pixofarmtaskapp-dev-185612-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-pixofarmtaskapp-dev-185612-deployment",
+      "UnauthRoleName": "amplify-pixofarmtaskapp-dev-185612-unauthRole",
+      "StackName": "amplify-pixofarmtaskapp-dev-185612",
+      "StackId": "arn:aws:cloudformation:eu-central-1:876682287772:stack/amplify-pixofarmtaskapp-dev-185612/46f0f0a0-c2fa-11eb-9a53-020a8f92cbec",
+      "AmplifyAppId": "dehv5i8uldwy6"
+    },
+    "categories": {
+      "auth": {
+        "pixofarmtaskapp5e5c6e0e": {}
+      }
+    }
+  }
+}

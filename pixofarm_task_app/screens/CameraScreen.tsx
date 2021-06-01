@@ -21,8 +21,12 @@ const CameraScreen = ({navigation}) => {
   const store = useStore();
   let currentMarker: any;
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    currentMarker = store.getState();
+    try {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      currentMarker = store.getState();
+    } catch (e) {
+      console.log(e);
+    }
     console.log('currentMarker', currentMarker);
   });
   const takePicture = async (cameraVar: any) => {
@@ -50,19 +54,21 @@ const CameraScreen = ({navigation}) => {
 
   return (
     <Container>
-      <RNCamera
-        type={RNCamera.Constants.Type.back}
-        flashMode={RNCamera.Constants.FlashMode.on}
-        style={{
-          flex: 1,
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-        ref={ref => {
-          // @ts-ignore
-          camera = ref;
-        }}
-      />
+      {RNCamera && (
+        <RNCamera
+          type={RNCamera.Constants.Type.back}
+          flashMode={RNCamera.Constants.FlashMode.on}
+          style={{
+            flex: 1,
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+          ref={ref => {
+            // @ts-ignore
+            camera = ref;
+          }}
+        />
+      )}
       <View
         style={{
           flex: 0,
