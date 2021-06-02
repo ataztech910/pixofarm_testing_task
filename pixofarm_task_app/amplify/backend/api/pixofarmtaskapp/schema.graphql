@@ -1,0 +1,7 @@
+type DataForList @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  weather: String
+  image: String
+  timestamp: String
+}
+ 

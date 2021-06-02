@@ -3,8 +3,10 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components/native';
 import {realmConnection} from '../model/files.schema';
 import LocalImageComponent from '../components/LocalImageComponent';
-import {Button, ListItem} from 'react-native-elements';
+import {ListItem} from 'react-native-elements';
 import {View} from 'react-native';
+import WeatherComponent from '../components/WeatherComponent';
+import SyncButton from '../components/SyncButton';
 
 const StyledList = styled.FlatList`
   margin-top: 50px;
@@ -18,6 +20,7 @@ const PhotosScreen = () => {
     const dateObject = new Date(Number(timestamp));
     return `${dateObject.getDate()}/${dateObject.getMonth()}/${dateObject.getFullYear()}`;
   };
+
   useEffect(() => {
     try {
       realmConnection.then(realm => {
@@ -43,20 +46,14 @@ const PhotosScreen = () => {
               <LocalImageComponent defaultImagePath={item.file_name} />
               <ListItem.Content>
                 <ListItem.Title>{makeDate(item.date)}</ListItem.Title>
-                <ListItem.Subtitle>Latitude: {item.latitude}</ListItem.Subtitle>
-                <ListItem.Subtitle>
-                  Longitude: {item.longitude}
-                </ListItem.Subtitle>
+                <WeatherComponent
+                  defaultCoordinates={{
+                    latitude: item.latitude,
+                    longitude: item.longitude,
+                  }}
+                />
               </ListItem.Content>
-              <Button
-                type="clear"
-                icon={{
-                  name: 'refresh',
-                  size: 15,
-                  color: 'gray',
-                }}
-                title="Sync"
-              />
+              <SyncButton item={item} />
             </ListItem>
           )}
         />
