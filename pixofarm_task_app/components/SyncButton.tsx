@@ -36,13 +36,9 @@ const LocalImageComponent = ({item}: {item: any}) => {
       weatherService(currentRow[0]).then((weatherFromService: any) => {
         const weather = normalizeWeather(weatherFromService);
         if (model.length > 0) {
-          dataUpdate(model[0], currentRow[0], weather).then(e => {
-            console.log('save to amazon', e);
-          });
+          dataUpdate(model[0], currentRow[0], weather);
         } else {
-          dataSave(weather, currentRow[0]).then(e => {
-            console.log('save to amazon', e);
-          });
+          dataSave(weather, currentRow[0]);
         }
       });
       setLoadingState(false);
