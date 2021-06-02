@@ -4,18 +4,17 @@ import {normalizeWeather, weatherService} from '../services/weather.service';
 
 const WeatherComponent = ({defaultCoordinates}: {defaultCoordinates: any}) => {
   const [weather, setWeather] = useState('');
+
   useEffect(() => {
+    // console.log('defaultCoordinates', defaultCoordinates);
     weatherService(defaultCoordinates)
       .then(json => {
-        // console.log('weather', json);
+        console.log('weather', json);
         setWeather(normalizeWeather(json));
       })
-      .catch(error => console.error(error));
-  }, [
-    defaultCoordinates,
-    defaultCoordinates.latitude,
-    defaultCoordinates.longitude,
-  ]);
+      .catch(error => console.error('error', error));
+  }, [defaultCoordinates]);
+
   return <ListItem.Subtitle>Weather: {weather}</ListItem.Subtitle>;
 };
 

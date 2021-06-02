@@ -18,7 +18,9 @@ const PhotosScreen = () => {
   const [listOfData, setList] = useState([]);
   const makeDate = (timestamp: any) => {
     const dateObject = new Date(Number(timestamp));
-    return `${dateObject.getDate()}/${dateObject.getMonth()}/${dateObject.getFullYear()}`;
+    return `${dateObject.getDate()}/${
+      dateObject.getMonth() + 1
+    }/${dateObject.getFullYear()}`;
   };
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const PhotosScreen = () => {
     } catch (e) {
       console.log(e);
     }
-  });
+  }, []);
   return (
     <View>
       {listOfData && (
