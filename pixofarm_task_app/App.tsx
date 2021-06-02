@@ -1,24 +1,23 @@
-import React, { useEffect } from "react";
+import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MapScreen from './screens/MapScreen';
+import PhotosScreen from './screens/PhotosScreen';
+import CameraScreen from './screens/CameraScreen';
 
 // @ts-ignore
 import styled from 'styled-components/native';
-import CameraScreen from './screens/CameraScreen';
 import reducer from './store/reducer';
 import {applyMiddleware, createStore, Store} from 'redux';
 import thunk from 'redux-thunk';
-import { Provider, useDispatch } from "react-redux";
-import PhotosScreen from './screens/PhotosScreen';
+import {Provider} from 'react-redux';
+
 // @ts-ignore
 import {withAuthenticator} from 'aws-amplify-react-native';
 import Amplify, {Auth} from 'aws-amplify';
 import config from './src/aws-exports';
-import Geolocation from "react-native-geolocation-service";
-import { Alert } from "react-native";
 
 Amplify.configure({
   ...config,
