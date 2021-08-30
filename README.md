@@ -1,3 +1,6 @@
+Video Presentation of product:
+https://www.youtube.com/watch?v=18fw-pLQ0jg&t=1s
+
 # pixofarm_testing_task
 
 Interview coding challenge (App side):
